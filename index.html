@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Africa Invest – Enregistrement (PRO)</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#F0B90B;
+      --accent-hover:#d1a000;
+      --ink:#14151A;
+    }
+    *{font-family: Inter, system-ui, -apple-system, Arial, sans-serif;}
+    body{
+      min-height:100vh;
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,0.25), transparent),
+                  url('https://cdn.pixabay.com/photo/2017/12/27/09/32/stability-3042271_1280.jpg') center/cover no-repeat fixed;
+      display:flex; align-items:center; justify-content:center; padding:32px;
+    }
+    .card-pro{
+      width:100%; max-width:880px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius:16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+      overflow:hidden;
+    }
+    .card-header-pro{
+      background: linear-gradient(90deg, rgba(0,0,0,0.75), rgba(0,0,0,0.65));
+      color:#fff; padding:18px 22px; display:flex; align-items:center; gap:12px;
+    }
+    .dot-logo{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.75); box-shadow:0 0 0 2px rgba(255,255,255,0.25) inset;}
+    .brand-title{font-weight:800; letter-spacing:.3px}
+    .brand-sub{opacity:.7; font-size:.9rem}
+    .card-body-pro{padding:22px}
+    .step-title{font-weight:800; color:#0b1220; font-size:1.05rem}
+    .btn-accent{
+      background:var(--accent); color:var(--ink); border:0; font-weight:700;
+    }
+    .btn-accent:hover{background:var(--accent-hover); color:#000}
+    .required::after{content:" *"; color:#dc3545}
+    .helper{font-size:.85rem; color:#6c757d}
+    .summary{
+      background:#f8fafc; border:1px dashed rgba(0,0,0,0.15); padding:12px; border-radius:10px;
+    }
+    .lock{
+      background:#0b1220; color:#fff; border-radius:10px; padding:14px; margin-bottom:16px;
+      display:flex; align-items:center; justify-content:space-between; gap:8px;
+    }
+    .lock small{opacity:.8}
+    .form-select, .form-control{border-radius:10px}
+    .toast-container{z-index:1080}
+  </style>
+</head>
+<body>
+
+<div class="card-pro">
+
+  <!-- En-tête -->
+  <div class="card-header-pro">
+    <div class="dot-logo" aria-hidden="true"></div>
+    <div>
+      <div class="brand-title">AFRICA INVESTISSEMENT</div>
+      <div class="brand-sub">Formulaire d’enregistrement </div>
+    </div>
+  </div>
+
+  <div class="card-body-pro">
+
+    <!-- Accès sécurisé -->
+    <div id="gate" class="lock">
+      <div>
+        <strong>Accès sécurisé</strong><br>
+        <small>Entrez le code d’accès pour ouvrir le formulaire.</small>
+      </div>
+      <div class="d-flex gap-2">
+        <input id="code" type="password" class="form-control form-control-sm" placeholder="Code d'accès">
+        <button id="btnOpen" class="btn btn-sm btn-accent">Valider</button>
+      </div>
+    </div>
+
+    <!-- Formulaire -->
+     <input type="hidden" name="whatsapp" value="447577326419">
+    <form id="registration-form" class="row g-3" action="Africa.html" method="GET" style="display:none">
+      <input type="hidden" name="whatsapp" value="16263231795">
+
+      <div class="col-12">
+        <div class="step-title">1) Informations générales</div>
+      </div>
+
+      <div class="col-md-7">
+        <label class="form-label required">Pays</label>
+        <select required name="country" id="formCountry" class="form-select">
+          <option value="">— Choisir le pays —</option>
+          <option value="GUINEA">Guinée Conakry (FG)</option>
+          <option value="SENEGAL">Sénégal (FCFA)</option>
+          <option value="TOGO">Togo (FCFA)</option>
+          <option value="BURKINA_FASO">Burkina Faso (FCFA)</option>
+          <option value="COTE_DIVOIRE">Côte d'Ivoire (FCFA)</option>
+          <option value="MALI">Mali (FCFA)</option>
+          <option value="CONGO_KINSHASA">Congo Kinshasa (USD)</option>
+          <option value="CONGO_BRAZZAVILLE">Congo Brazzaville (FCFA)</option>
+          <option value="CAMEROUN">Cameroun (FCFA)</option>
+          <option value="NIGER">Niger (FCFA)</option>
+          <option value="BENIN">Bénin (FCFA)</option>
+          <option value="COMORES">Comores (KMF)</option>
+        </select>
+        <div class="helper">Le choix du pays mettra à jour l’indicatif, les réseaux et les montants.</div>
+      </div>
+
+      <div class="col-md-5">
+        <label class="form-label required">Nom de l’investisseur</label>
+        <input required type="text" id="form-investor-name" name="investorName" class="form-control" placeholder="Ex: Saint">
+      </div>
+
+      <div class="col-md-5">
+        <label class="form-label required">Réseau</label>
+        <select required name="network" id="formNetwork" class="form-select">
+          <option value="">— Choisir le réseau —</option>
+        </select>
+      </div>
+
+      <div class="col-md-7">
+        <label class="form-label required">Référence / Transaction</label>
+        <div class="input-group">
+          <span class="input-group-text" id="indicatifLabel">+XXX</span>
+          <input type="hidden" id="indicatif" name="indicatif">
+          <input required type="text" id="transaction-number" name="transactionNumber" class="form-control" placeholder="Numéro de transaction">
+        </div>
+        <div class="helper">L’indicatif se remplit automatiquement selon le pays.</div>
+      </div>
+
+      <div class="col-12">
+        <div class="step-title">2) Montant d’investissement</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label required">Montant investi</label>
+        <select required name="montantInvest" id="montantInvest" class="form-select">
+          <option value="">— Choisir le montant —</option>
+        </select>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Montant à recevoir</label>
+        <input readonly id="form-total-amount" name="totalAmount" class="form-control" placeholder="Sera calculé…">
+      </div>
+
+      <!-- Résumé -->
+      <div class="col-12">
+        <div class="step-title">3) Récapitulatif</div>
+        <div id="summary" class="summary small">
+          Sélectionnez le pays, le réseau et le montant pour voir le récapitulatif ici.
+        </div>
+      </div>
+
+      <div class="col-12 d-flex gap-2">
+        <button class="btn btn-accent" type="submit">Enregistrer</button>
+        <button class="btn btn-outline-secondary" type="button" id="btnReset">Réinitialiser</button>
+      </div>
+
+      <div id="error-message" class="text-danger fw-semibold"></div>
+      <p class="text-muted m-0"><small>© 2024 Trading Investissement</small></p>
+    </form>
+
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  <div id="toastOk" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body">Formulaire prêt. Vous pouvez enregistrer.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+  <div id="toastErr" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+      <div class="toast-body" id="toastErrText">Veuillez remplir tous les champs requis.</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  // ========= Accès sécurisé
+  const ACCESS_CODE = "7577";
+  const gate = document.getElementById('gate');
+  const form = document.getElementById('registration-form');
+  document.getElementById('btnOpen').addEventListener('click', () => {
+    const v = document.getElementById('code').value.trim();
+    if(v === ACCESS_CODE){
+      gate.style.display = 'none';
+      form.style.display = '';
+      showOk("Accès accordé.");
+    } else {
+      showErr("Code d'accès incorrect.");
+    }
+  });
+
+  // ========= Données (réseaux, montants, indicatifs)
+  const networks = {
+    GUINEA:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MTN",text:"MTN MoMo"}],
+    SENEGAL:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"WAVE",text:"Wave Money"}],
+    TOGO:[{value:"TOGOCEL",text:"Togocel"},{value:"MOOVTOGO",text:"Moov Togo"}],
+    BURKINA_FASO:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MOOVMONEY",text:"Moov Money"},{value:"WAVE",text:"Wave Money"}],
+    COTE_DIVOIRE:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MTN",text:"MTN MoMo"},{value:"MOOVMONEY",text:"Moov Money"},{value:"WAVE",text:"Wave Money"}],
+    MALI:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"WAVE",text:"Wave Money"}],
+    CONGO_KINSHASA:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MPESA",text:"M-Pesa"},{value:"AIRTELMONEY",text:"Airtel Money"}],
+    CONGO_BRAZZAVILLE:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MTN",text:"MTN MoMo"}],
+    CAMEROUN:[{value:"ORANGEMONEY",text:"Orange Money"},{value:"MTN",text:"MTN MoMo"}],
+    NIGER:[{value:"ZEYNA",text:"Zeyna"},{value:"ALIZAMONEY",text:"Aliza Money"},{value:"MYNITA",text:"My Nita"},{value:"MOOVMONEY",text:"Moov Money"}],
+    BENIN:[{value:"MOBILEMONEY",text:"Mobile Money"},{value:"MOOVMONEY",text:"Moov Money"}],
+    COMORES:[{value:"COMORESTELECOM",text:"Comores Telecom"},{value:"MVOLA",text:"MVola Money"}]
+  };
+
+  const amounts = {
+    GUINEA:[
+      {value:"1000000",text:"1 000 000 FG",receive:"5 100 000 FG"},
+      {value:"2000000",text:"2 000 000 FG",receive:"9 300 000 FG"},
+      {value:"3000000",text:"3 000 000 FG",receive:"13 500 000 FG"},
+      {value:"4000000",text:"4 000 000 FG",receive:"17 300 000 FG"},
+      {value:"5000000",text:"5 000 000 FG",receive:"22 300 000 FG"},
+      {value:"10000000",text:"10 000 000 FG",receive:"44 600 000 FG"},
+      {value:"20000000",text:"20 000 000 FG",receive:"85 200 000 FG"},
+    ],
+       CFA:[
+      {value:"20000", text:"20 000 F CFA",  receive:"130 000 F CFA"},
+      {value:"40000", text:"40 000 F CFA",  receive:"260 000 F CFA"},
+      {value:"60000", text:"60 000 F CFA",  receive:"390 000 F CFA"},
+      {value:"80000", text:"80 000 F CFA",  receive:"520 000 F CFA"},
+      {value:"100000",text:"100 000 F CFA", receive:"650 000 F CFA"},
+      {value:"200000",text:"200 000 F CFA", receive:"1 300 000 F CFA"},
+      {value:"300000",text:"300 000 F CFA", receive:"2 000 000 F CFA"},
+      {value:"400000",text:"400 000 F CFA", receive:"2 700 000 F CFA"},
+      {value:"500000",text:"500 000 F CFA", receive:"3 250 000 F CFA"},
+      {value:"1000000",text:"1 000 000 F CFA",receive:"6 500 000 F CFA"},
+    ],
+       CONGO_KINSHASA:[
+      {value:"20", text:"20 USD",  receive:"130 USD"},
+      {value:"40", text:"40 USD",  receive:"260 USD"},
+      {value:"60", text:"60 USD",  receive:"390 USD"},
+      {value:"80", text:"80 USD",  receive:"520 USD"},
+      {value:"100",text:"100 USD", receive:"650 USD"},
+      {value:"200",text:"200 USD", receive:"1 300 USD"},
+      {value:"300",text:"300 USD", receive:"2 000 USD"},
+      {value:"400",text:"400 USD", receive:"2 700 USD"},
+      {value:"500",text:"500 USD", receive:"3 250 USD"},
+      {value:"1000",text:"1 000 USD",receive:"6 500 USD"},
+    ],
+    COMORES:[
+      {value:"30000",text:"30 000 FC",receive:"200 000 FC"},
+      {value:"50000",text:"50 000 FC",receive:"450 000 FC"},
+      {value:"60000",text:"60 000 FC",receive:"500 000 FC"},
+      {value:"70000",text:"70 000 FC",receive:"550 000 FC"},
+      {value:"80000",text:"80 000 FC",receive:"600 000 FC"},
+      {value:"90000",text:"90 000 FC",receive:"650 000 FC"},
+      {value:"100000",text:"100 000 FC",receive:"1 100 000 FC"},
+      {value:"200000",text:"200 000 FC",receive:"1 450 000 FC"},
+      {value:"300000",text:"300 000 FC",receive:"1 800 000 FC"},
+      {value:"400000",text:"400 000 FC",receive:"1 850 000 FC"},
+      {value:"500000",text:"500 000 FC",receive:"2 100 000 FC"},
+      {value:"800000",text:"800 000 FC",receive:"4 650 000 FC"},
+    ]
+  };
+
+  const transactionIndicatives = {
+    GUINEA:"+224",SENEGAL:"+221",TOGO:"+228",BURKINA_FASO:"+226",
+    COTE_DIVOIRE:"+225",MALI:"+223",CONGO_KINSHASA:"+243",
+    CONGO_BRAZZAVILLE:"+242",CAMEROUN:"+237",NIGER:"+227",
+    BENIN:"+229",COMORES:"+269"
+  };
+
+  // ========= Helpers Toast
+  const toastOk = new bootstrap.Toast(document.getElementById('toastOk'));
+  const toastErr = new bootstrap.Toast(document.getElementById('toastErr'));
+  function showOk(msg){ document.querySelector('#toastOk .toast-body').textContent = msg; toastOk.show(); }
+  function showErr(msg){ document.getElementById('toastErrText').textContent = msg; toastErr.show(); }
+
+  // ========= DOM
+  const countryEl = document.getElementById('formCountry');
+  const networkEl = document.getElementById('formNetwork');
+  const montantEl = document.getElementById('montantInvest');
+  const receiveEl = document.getElementById('form-total-amount');
+  const indicatifHidden = document.getElementById('indicatif');
+  const indicatifLabel = document.getElementById('indicatifLabel');
+  const nameEl = document.getElementById('form-investor-name');
+  const txEl = document.getElementById('transaction-number');
+  const summaryEl = document.getElementById('summary');
+
+  // ========= Events
+  countryEl.addEventListener('change', () => {
+    const country = countryEl.value;
+
+    // réseaux
+    networkEl.innerHTML = '<option value="">— Choisir le réseau —</option>';
+    if(country && networks[country]){
+      (networks[country]).forEach(n=>{
+        const opt = document.createElement('option');
+        opt.value = n.value; opt.textContent = n.text;
+        networkEl.appendChild(opt);
+      });
+    }
+
+    // montants
+    montantEl.innerHTML = '<option value="">— Choisir le montant —</option>';
+    let list = [];
+    if(country === 'CONGO_KINSHASA'){ list = amounts.CONGO_KINSHASA; }
+    else if(country === 'COMORES'){ list = amounts.COMORES; }
+    else { list = amounts[country] || amounts.CFA; }
+
+    if(Array.isArray(list)){
+      list.forEach(a=>{
+        const opt = document.createElement('option');
+        opt.value = a.value; opt.textContent = a.text; opt.dataset.receive = a.receive;
+        montantEl.appendChild(opt);
+      });
+    }
+
+    // indicatif
+    const ind = transactionIndicatives[country] || '+XXX';
+    indicatifHidden.value = ind;
+    indicatifLabel.textContent = ind;
+
+    updateSummary();
+  });
+
+  montantEl.addEventListener('change', () => {
+    receiveEl.value = montantEl.options[montantEl.selectedIndex]?.dataset?.receive || '';
+    updateSummary();
+  });
+
+  [networkEl, nameEl, txEl].forEach(el => el.addEventListener('input', updateSummary));
+
+  document.getElementById('btnReset').addEventListener('click', () => {
+    form.reset();
+    networkEl.innerHTML = '<option value="">— Choisir le réseau —</option>';
+    montantEl.innerHTML = '<option value="">— Choisir le montant —</option>';
+    receiveEl.value = '';
+    indicatifHidden.value = '';
+    indicatifLabel.textContent = '+XXX';
+    summaryEl.textContent = 'Sélectionnez le pays, le réseau et le montant pour voir le récapitulatif ici.';
+  });
+
+  // ========= Summary
+  function updateSummary(){
+    const c = countryEl.options[countryEl.selectedIndex]?.text || '—';
+    const n = networkEl.options[networkEl.selectedIndex]?.text || '—';
+    const m = montantEl.options[montantEl.selectedIndex]?.text || '—';
+    const r = receiveEl.value || '—';
+    const name = nameEl.value || '—';
+    const tx = txEl.value || '—';
+    const ind = indicatifHidden.value || '+XXX';
+
+    summaryEl.innerHTML = `
+      <div class="row">
+        <div class="col-md-6">
+          <strong>Investisseur :</strong> ${name}<br>
+          <strong>Pays :</strong> ${c}<br>
+          <strong>Réseau :</strong> ${n}
+        </div>
+        <div class="col-md-6">
+          <strong>Transaction :</strong> ${ind} ${tx}<br>
+          <strong>Investi :</strong> ${m}<br>
+          <strong>À recevoir :</strong> ${r}
+        </div>
+      </div>
+    `;
+  }
+
+  // ========= Validation submit
+  form.addEventListener('submit', (e)=>{
+    const missing = [];
+    if(!countryEl.value) missing.push('pays');
+    if(!nameEl.value.trim()) missing.push('nom');
+    if(!networkEl.value) missing.push('réseau');
+    if(!txEl.value.trim()) missing.push('numéro de transaction');
+    if(!montantEl.value) missing.push('montant');
+    if(!receiveEl.value) missing.push('montant à recevoir');
+
+    if(missing.length){
+      e.preventDefault();
+      showErr('Champs manquants : ' + missing.join(', ') + '.');
+      document.getElementById('error-message').textContent = 'Veuillez remplir tous les champs.';
+    } else {
+      document.getElementById('error-message').textContent = '';
+      showOk('Envoi en cours…');
+      // Laisse le submit normal vers Africa.html (GET)
+    }
+  });
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Progression - Africa Invest (Pro)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#081321;
+    --panel:#0d1b2a;
+    --muted:#9aa7b2;
+    --accent:#f0b90b;
+    --danger:#ef4444;
+  }
+  *{box-sizing:border-box;font-family:Inter,system-ui,Arial,sans-serif}
+  body{margin:0;background:var(--bg);color:#e6eef6}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px}
+  .card{background:#0b1623;width:100%;max-width:900px;border-radius:16px;padding:26px;box-shadow:0 10px 40px rgba(0,0,0,.6);display:flex;flex-wrap:wrap;gap:24px}
+  .left,.right{flex:1 1 360px}
+  .logo{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}
+  h2{margin:0;font-size:20px;font-weight:700}
+  .info,.panel{background:#0f1e30;border-radius:12px;padding:16px;margin-top:18px}
+  .row{display:flex;justify-content:space-between;margin-bottom:6px;font-size:14px}
+  .val{font-weight:700}
+  .progress-bar{height:18px;background:#0003;border-radius:99px;overflow:hidden;margin-top:10px}
+  .progress-fill{height:100%;width:0;background:linear-gradient(90deg,#f0b90b,#ffe78c);transition:width .4s}
+  .btn{padding:10px 14px;border:0;border-radius:8px;font-weight:700;cursor:pointer;margin-top:12px}
+  .primary{background:var(--accent);color:#061017}
+  .whatsapp{background:#25D366;color:#061017}
+  .alert{margin-top:12px;padding:10px;background:#0003;border-radius:8px;font-size:14px}
+  .danger-text{color:var(--danger);font-weight:700}
+  #logBox{max-height:220px;overflow:auto;font-size:13px;line-height:1.4}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<div class="card">
+
+  <div class="left">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div class="logo"></div><h2>Africa Invest — Progression</h2>
+    </div>
+
+    <div class="info">
+      <div class="row"><span>Nom</span> <span class="val" id="i-name">—</span></div>
+      <div class="row"><span>Pays</span> <span class="val" id="i-country">—</span></div>
+      <div class="row"><span>Réseau</span> <span class="val" id="i-network">—</span></div>
+      <div class="row"><span>Transaction</span> <span class="val" id="i-tx">—</span></div>
+    </div>
+
+    <div class="panel">
+      <span>Status : <b id="statusLabel">En attente</b></span>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div style="margin-top:6px;font-size:14px;">Progression : <b id="percentText">0%</b></div>
+
+      <button id="btnStart" class="btn primary">Démarrer</button>
+      <button id="btnWhats" class="btn whatsapp">Contacter conseiller</button>
+
+      <div id="alertBox" class="alert">En attente du lancement…</div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="panel">
+      <span style="font-size:13px;">Montant à recevoir</span><br>
+      <div style="font-size:30px;font-weight:800;color:var(--accent)" id="i-amount">—</div>
+    </div>
+
+    <div class="panel">
+      <div style="font-size:13px;margin-bottom:6px">Journal</div>
+      <div id="logBox"></div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const STOP_AT = 97;               // Arrêt obligatoire
+const DURATION = 5 * 60 * 1000;   // 5 minutes
+
+// ---- Récupération sécurisée (URL → localStorage)
+function getData(key){
+  const p = new URLSearchParams(location.search);
+  let v = p.get(key);
+  if(v){ localStorage.setItem("INVEST_"+key, v); return v; }
+  return localStorage.getItem("INVEST_"+key) || "—";
+}
+
+const investorName = getData("investorName");
+const country = getData("country");
+const network = getData("network");
+const transactionNumber = getData("transactionNumber");
+const totalAmount = getData("totalAmount");
+const whatsapp = "447577326419"; // Numéro officiel corrigé
+
+// ---- Récupération des éléments DOM
+const iName = document.getElementById('i-name');
+const iCountry = document.getElementById('i-country');
+const iNetwork = document.getElementById('i-network');
+const iTx = document.getElementById('i-tx');
+const iAmount = document.getElementById('i-amount');
+const logBox = document.getElementById('logBox');
+const progressFill = document.getElementById('progressFill');
+const percentText = document.getElementById('percentText');
+const statusLabel = document.getElementById('statusLabel');
+const alertBox = document.getElementById('alertBox');
+const btnStart = document.getElementById('btnStart');
+const btnWhats = document.getElementById('btnWhats');
+
+// ---- Inject UI
+iName.textContent = investorName;
+iCountry.textContent = country;
+iNetwork.textContent = network;
+iTx.textContent = transactionNumber;
+iAmount.textContent = totalAmount;
+
+// ---- Logging
+function log(t){
+  logBox.innerHTML = `<div>[${new Date().toLocaleTimeString()}] ${t}</div>` + logBox.innerHTML;
+}
+
+// ---- Progression
+let startTime = localStorage.getItem("INVEST_START_TIME");
+if (startTime) startTime = Number(startTime);
+let running = false;
+
+function computeProgress(){
+  if(!startTime) return 0;
+  return Math.min(STOP_AT, ((Date.now() - startTime) / DURATION) * STOP_AT);
+}
+
+function tick(){
+  const pct = computeProgress();
+  progressFill.style.width = pct + "%";
+  percentText.textContent = Math.floor(pct) + "%";
+
+  if(pct >= STOP_AT){
+    statusLabel.textContent = "Blocage — Frais requis";
+    alertBox.innerHTML = `<span class="danger-text">Solde insuffisant :</span> merci de régler les frais supplémentaires à votre conseiller.`;
+    log("Blocage automatique 97% — Attente de régularisation.");
+    return;
+  }
+
+  statusLabel.textContent = "Traitement en cours…";
+  requestAnimationFrame(tick);
+}
+
+btnStart.onclick = ()=>{
+  const code = prompt("Veuillez entrer votre code de confirmation pour lancer l'investissement :");
+  
+  if (code !== "326419") {
+    alert("❌ Code incorrect. Veuillez contacter votre conseiller.");
+    log("Tentative de démarrage avec code incorrect.");
+    return;
+  }
+
+  if (!startTime) {
+    startTime = Date.now();
+    localStorage.setItem("INVEST_START_TIME", startTime);
+    log("✅ Progression lancée (code correct).");
+  }
+
+  if (!running) {
+    running = true;
+    tick();
+  }
+};
+
+
+btnWhats.onclick = ()=>{
+  window.open(`https://wa.me/${whatsapp}?text=Bonjour, ma transaction ${transactionNumber} est bloquée à 97%. Comment régulariser ?`);
+  log("Ouverture WhatsApp (+44 7577 326419).");
+};
+
+// ---- Si progression déjà commencée → reprise auto
+if(startTime){
+  running = true;
+  tick();
+  log("Reprise automatique de la progression.");
+}
+</script>
+
+</body>
+</html>
+
